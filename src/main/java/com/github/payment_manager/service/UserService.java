@@ -1,13 +1,12 @@
 package com.github.payment_manager.service;
 
 import com.github.payment_manager.domain.User;
-import com.github.payment_manager.dto.AuthenticationDTO;
-import com.github.payment_manager.dto.CreateUserDTO;
-import com.github.payment_manager.dto.GetUserResponseDTO;
+import com.github.payment_manager.dto.authentication.AuthenticationDTO;
+import com.github.payment_manager.dto.user.CreateUserDTO;
+import com.github.payment_manager.dto.user.GetUserResponseDTO;
 import com.github.payment_manager.repository.UserRepository;
 import com.github.payment_manager.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +18,11 @@ public class UserService {
     @Autowired
     private TokenService tokenService;
 
-    public void save(CreateUserDTO dto) {
+    public GetUserResponseDTO save(CreateUserDTO dto) {
 
         User user = new User(dto);
 
-        this.repository.save(user);
+        return new GetUserResponseDTO(this.repository.save(user));
     }
 
     public String login(AuthenticationDTO dto) {

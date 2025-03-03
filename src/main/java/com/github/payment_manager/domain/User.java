@@ -1,6 +1,6 @@
 package com.github.payment_manager.domain;
 
-import com.github.payment_manager.dto.CreateUserDTO;
+import com.github.payment_manager.dto.user.CreateUserDTO;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -14,7 +14,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "_user")
-@Getter
 @EqualsAndHashCode(of = "id")
 public class User implements UserDetails {
 
