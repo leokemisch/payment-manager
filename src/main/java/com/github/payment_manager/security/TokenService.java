@@ -5,8 +5,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import com.github.payment_manager.domain.User;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -17,10 +17,10 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String generateToken(User user) {
+    public String generateToken(UserDetails user) {
         if (user != null) {
             try {
-                String login = user.getLogin();
+                String login = user.getUsername();
                 System.out.println("Login: " + login);
 
                 Algorithm algorithm = Algorithm.HMAC256(secret);

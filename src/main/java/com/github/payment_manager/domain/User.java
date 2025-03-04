@@ -3,7 +3,6 @@ package com.github.payment_manager.domain;
 import com.github.payment_manager.dto.user.CreateUserDTO;
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +32,7 @@ public class User implements UserDetails {
         this.role = UserRole.USER;
     }
 
-    public User(User user) {
+    public User() {
     }
 
     @Override

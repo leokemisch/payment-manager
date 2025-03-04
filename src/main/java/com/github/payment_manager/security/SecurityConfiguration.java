@@ -28,10 +28,6 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/user/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/user/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/bill/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/bill").permitAll()
-                        .requestMatchers(HttpMethod.PUT, "/bill/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/bill/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

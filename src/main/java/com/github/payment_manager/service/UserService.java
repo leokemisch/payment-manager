@@ -7,8 +7,9 @@ import com.github.payment_manager.dto.user.GetUserResponseDTO;
 import com.github.payment_manager.repository.UserRepository;
 import com.github.payment_manager.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,8 +19,7 @@ public class UserService {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+
 
     public GetUserResponseDTO save(CreateUserDTO dto) {
 
@@ -30,17 +30,22 @@ public class UserService {
 
     public String login(AuthenticationDTO dto) {
 
-        return tokenService.generateToken((User) authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        dto.login(),
-                        dto.password()
-                )
-        ).getPrincipal());
+        User user = repository.findByLogin(dto.login());
+
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found.");
+        }
+
+        if (new BCryptPasswordEncoder().matches(dto.password(), user.getPassword())) {
+            return tokenService.generateToken(user);
+        } else {
+            throw new BadCredentialsException("Invalid password.");
+        }
     }
 
-    public GetUserResponseDTO findUserByLogin(String login) {
+    public User findUserByLogin(String login) {
         try {
-            return new GetUserResponseDTO(repository.getByLogin(login));
+            return repository.findByLogin(login);
         } catch (Exception e) {
             return null;
         }
