@@ -1,6 +1,7 @@
 package com.github.payment_manager.dto.bill;
 
 import com.github.payment_manager.domain.Bill;
+import com.github.payment_manager.domain.BillStatus;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,6 +14,6 @@ public record GetBillDTO(String id, Date dueDate, Date paymentDate, BigDecimal v
                 bill.getPayment(),
                 bill.getValue(),
                 bill.getDescription(),
-                bill.getStatus().toString());
+                bill.getStatus() != null ? bill.getStatus().toString() : BillStatus.PENDING.toString());
     }
 }

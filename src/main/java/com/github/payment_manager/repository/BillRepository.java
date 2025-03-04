@@ -25,4 +25,5 @@ public interface BillRepository extends JpaRepository<Bill, Long> {
     @Query("SELECT COALESCE(SUM(b.value), 0) FROM Bill b WHERE b.payment BETWEEN :initialPeriod AND :finalPeriod")
     Double sumValuesBetweenPeriods(@Param("initialPeriod") Date initialPeriod,
                                    @Param("finalPeriod") Date finalPeriod);
+
 }

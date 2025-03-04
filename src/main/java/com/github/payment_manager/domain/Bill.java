@@ -7,9 +7,10 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+
+//Setter    LOMBOK NOT WORKING =(
 @Entity
 @Table(name = "bill")
-
 public class Bill {
 
     @Id
@@ -17,6 +18,7 @@ public class Bill {
     String id;
     Date due;
     Date payment;
+    @Column(name = "bill_value")
     BigDecimal value;
     String description;
     BillStatus status;
@@ -31,6 +33,10 @@ public class Bill {
     }
 
     public Bill() {
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setDue(Date dueDate) {
