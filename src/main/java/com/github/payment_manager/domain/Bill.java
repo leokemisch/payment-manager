@@ -3,40 +3,42 @@ package com.github.payment_manager.domain;
 import com.github.payment_manager.dto.bill.CreateBillDTO;
 import com.github.payment_manager.service.utils.DateUtils;
 import jakarta.persistence.*;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name = "bill")
+
 public class Bill {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
-    Date dueDate;
-    Date paymentDate;
+    Date due;
+    Date payment;
     BigDecimal value;
     String description;
     BillStatus status;
-    String userId;
+
 
     public Bill(CreateBillDTO dto) {
-        this.dueDate = DateUtils.dateFormat(dto.dueDate());
-        this.paymentDate = null;
+        this.due = DateUtils.dateFormat(dto.dueDate());
+        this.payment = null;
         this.value = new BigDecimal(dto.value());
         this.description = dto.description();
         this.status = BillStatus.PENDING;
-        this.userId = dto.userId();
     }
 
-    public void setDueDate(Date dueDate) {
-        this.dueDate = dueDate;
+    public Bill() {
     }
 
-    public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate;
+    public void setDue(Date dueDate) {
+        this.due = dueDate;
+    }
+
+    public void setPayment(Date paymentDate) {
+        this.payment = paymentDate;
     }
 
     public void setValue(BigDecimal value) {
@@ -49,5 +51,29 @@ public class Bill {
 
     public void setStatus(BillStatus status) {
         this.status = status;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public Date getDue() {
+        return due;
+    }
+
+    public Date getPayment() {
+        return payment;
+    }
+
+    public BigDecimal getValue() {
+        return value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public BillStatus getStatus() {
+        return status;
     }
 }

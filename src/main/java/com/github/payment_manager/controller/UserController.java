@@ -14,7 +14,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = {"/register"}, method = RequestMethod.POST)
+    @PostMapping("/register")
     public ResponseEntity register(@RequestBody CreateUserDTO data) {
 
         if (userService.findUserByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
@@ -22,7 +22,7 @@ public class UserController {
         return ResponseEntity.ok(userService.save(data));
     }
 
-    @RequestMapping(value = {"/login"}, method = RequestMethod.POST)
+    @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationDTO data) {
 
         return ResponseEntity.ok(userService.login(data));

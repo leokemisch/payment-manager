@@ -7,7 +7,8 @@ import com.github.payment_manager.dto.user.GetUserResponseDTO;
 import com.github.payment_manager.repository.UserRepository;
 import com.github.payment_manager.security.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,8 @@ public class UserService {
     private UserRepository repository;
     @Autowired
     private TokenService tokenService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     public GetUserResponseDTO save(CreateUserDTO dto) {
 
@@ -27,10 +30,12 @@ public class UserService {
 
     public String login(AuthenticationDTO dto) {
 
-        User user = new User(repository.findByLoginAndPassword(dto.login(),
-                new BCryptPasswordEncoder().encode(dto.password())));
-
-        return tokenService.generateToken(user);
+        return tokenService.generateToken((User) authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        dto.login(),
+                        dto.password()
+                )
+        ).getPrincipal());
     }
 
     public GetUserResponseDTO findUserByLogin(String login) {

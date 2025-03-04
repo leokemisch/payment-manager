@@ -60,5 +60,9 @@ public class User implements UserDetails {
     public String getName() {
         return this.name;
     }
+
+    public String getLogin() {
+        return this.id;
+    }
 }
 
